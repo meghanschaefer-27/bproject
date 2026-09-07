@@ -1,6 +1,7 @@
 'use client'
 
-import { ChevronLeft, ChevronRight, MapPin, Moon, Sun } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
+import { Check, ChevronLeft, ChevronRight, MapPin, Moon, Sun } from 'lucide-react'
 import {
   cycleDays,
   estimateEggCollection,
@@ -221,18 +222,81 @@ export function TodayView({
         </p>
       )}
 
-      <div className="space-y-2">
+      <DayNotes note={note} onNoteChange={onNoteChange} />
+    </div>
+  )
+}
+
+function DayNotes({
+  note,
+  onNoteChange,
+}: {
+  note: string
+  onNoteChange: (value: string) => void
+}) {
+  const [draft, setDraft] = useState(note)
+  const [justSaved, setJustSaved] = useState(false)
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  // Reset the draft when navigating to a different day.
+  useEffect(() => {
+    setDraft(note)
+    setJustSaved(false)
+  }, [note])
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current)
+    }
+  }, [])
+
+  const dirty = draft !== note
+
+  function handleSave() {
+    onNoteChange(draft)
+    setJustSaved(true)
+    if (timeoutRef.current) clearTimeout(timeoutRef.current)
+    timeoutRef.current = setTimeout(() => setJustSaved(false), 2500)
+  }
+
+  return (
+    <div className="space-y-2">
+      <div className="flex items-center justify-between gap-2">
         <label htmlFor="day-note" className="text-sm font-medium text-muted-foreground">
           My notes for this day
         </label>
-        <textarea
-          id="day-note"
-          value={note}
-          onChange={(e) => onNoteChange(e.target.value)}
-          rows={3}
-          placeholder="How you felt, side effects, questions for Evewell…"
-          className="w-full resize-y rounded-xl border border-border bg-card px-3.5 py-3 text-sm leading-relaxed outline-none transition-colors placeholder:text-muted-foreground/70 focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
-        />
+        {justSaved && !dirty && (
+          <span className="flex items-center gap-1 text-xs font-medium text-primary">
+            <Check className="size-3.5" aria-hidden="true" />
+            Saved
+          </span>
+        )}
+        {dirty && <span className="text-xs text-muted-foreground">Unsaved changes</span>}
+      </div>
+      <textarea
+        id="day-note"
+        value={draft}
+        onChange={(e) => setDraft(e.target.value)}
+        rows={3}
+        placeholder="How you felt, side effects, questions for Evewell…"
+        className="w-full resize-y rounded-xl border border-border bg-card px-3.5 py-3 text-sm leading-relaxed outline-none transition-colors placeholder:text-muted-foreground/70 focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
+      />
+      <div className="flex justify-end">
+        <button
+          type="button"
+          onClick={handleSave}
+          disabled={!dirty}
+          className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-40 disabled:hover:bg-primary"
+        >
+          {justSaved && !dirty ? (
+            <>
+              <Check className="size-4" aria-hidden="true" />
+              Saved
+            </>
+          ) : (
+            'Save note'
+          )}
+        </button>
       </div>
     </div>
   )
