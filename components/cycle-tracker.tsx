@@ -77,7 +77,7 @@ export function CycleTracker() {
             type="button"
             onClick={() => setTab(t.id)}
             className={cn(
-              'flex items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+              'flex items-center justify-center gap-1.5 rounded-lg px-1.5 py-2 text-sm font-medium transition-colors sm:gap-2 sm:px-3',
               tab === t.id
                 ? 'bg-primary text-primary-foreground'
                 : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground',
