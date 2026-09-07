@@ -1,18 +1,20 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { CalendarClock, CalendarDays, ClipboardCheck, Sparkles } from 'lucide-react'
+import { BookOpen, CalendarClock, CalendarDays, ClipboardCheck, Sparkles } from 'lucide-react'
 import { cycleDays, getTodayIndex } from '@/lib/cycle-data'
 import { useLocalStorage } from '@/lib/use-local-storage'
 import { TodayView } from '@/components/today-view'
 import { CycleCalendar } from '@/components/cycle-calendar'
 import { MilestoneTimeline } from '@/components/milestone-timeline'
 import { MonthCalendar } from '@/components/month-calendar'
+import { ProtocolOverview } from '@/components/protocol-overview'
 import { cn } from '@/lib/utils'
 
-type Tab = 'today' | 'calendar' | 'milestones'
+type Tab = 'overview' | 'today' | 'calendar' | 'milestones'
 
 const tabs: { id: Tab; label: string; icon: React.ReactNode }[] = [
+  { id: 'overview', label: 'Overview', icon: <BookOpen className="size-4" /> },
   { id: 'calendar', label: 'Calendar', icon: <CalendarDays className="size-4" /> },
   { id: 'today', label: 'Today', icon: <ClipboardCheck className="size-4" /> },
   { id: 'milestones', label: 'Milestones', icon: <Sparkles className="size-4" /> },
@@ -68,7 +70,7 @@ export function CycleTracker() {
         </button>
       </header>
 
-      <nav className="mb-6 grid grid-cols-3 gap-1 rounded-xl border border-border bg-card p-1">
+      <nav className="mb-6 grid grid-cols-4 gap-1 rounded-xl border border-border bg-card p-1">
         {tabs.map((t) => (
           <button
             key={t.id}
@@ -89,6 +91,8 @@ export function CycleTracker() {
       </nav>
 
       <main className="flex-1">
+        {tab === 'overview' && <ProtocolOverview />}
+
         {tab === 'today' && (
           <TodayView
             day={day}

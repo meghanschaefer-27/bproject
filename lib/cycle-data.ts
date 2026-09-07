@@ -136,7 +136,6 @@ export const cycleDays: CycleDay[] = [
     cycleDay: 'CD25',
     stimDay: 'Day 4',
     phase: 'stimulation',
-    appointment: { label: 'Evewell scan + bloods', potential: true },
     morning: [dex(), menopur()],
     evening: [pergoveris()],
     note: 'Switch to morning + evening stimulation shots. First monitoring appointment expected Day 4 or Day 5.',
@@ -266,6 +265,150 @@ export const cycleDays: CycleDay[] = [
     ],
     evening: [],
     note: "You'll know the exact procedure date ~2 days before. On the day, you'll find out how many eggs were collected.",
+  },
+]
+
+export type ProtocolPhase = {
+  id: string
+  range: string
+  stimRange: string
+  summary: string
+  points: string[]
+  appointment?: string
+}
+
+export const protocolPhases: ProtocolPhase[] = [
+  {
+    id: 'baseline-start',
+    range: 'Cycle Day 20–22',
+    stimRange: 'Stimulation Day 1 to 5/6',
+    appointment: 'Baseline scan Fri 11 Sep, 8am',
+    summary:
+      'Ultrasound scan + bloods at your baseline appointment, undertaken by the nurse and reviewed by your consultant. If you are cleared to start, that day becomes Stimulation Day 1. You can also have a medication teach with the nurses after this appointment.',
+    points: [
+      'Stim days 1–3 — AM: Dexamethasone 1mg (10 day course); PM 6–9pm: Gonal-F 300iu',
+      'From stim day 4 onwards — AM 6–9am: Menopur 150iu + Dexamethasone 1mg; PM 6–9pm: Pergoveris 150iu',
+      'From Day 6 you introduce Luveris 75iu every evening',
+    ],
+  },
+  {
+    id: 'mid-monitoring',
+    range: '',
+    stimRange: 'Stimulation Day 5/6',
+    appointment: 'Ultrasound scan and possibly bloods',
+    summary:
+      'You will have 3–4 further scans every 2–3 days after this point.',
+    points: [
+      'You will be told whether to commence Fyremadel 250mcg (every day thereafter, until approx. Cycle Day 10–12)',
+      'Continue with your stimulation medication today and every day thereafter',
+      'Following this scan your dose may change and additional medication may be added depending on your response to the stimulation',
+    ],
+  },
+  {
+    id: 'trigger-phase',
+    range: '',
+    stimRange: 'Stimulation Day 10–12',
+    summary:
+      'Buserelin 1ml + Zivafert 10,000iu trigger injections. This is very specifically timed and the nurses will tell you when to take this medication. Do not take this medication without specific instruction.',
+    points: [],
+  },
+]
+
+export type MedReference = {
+  id: string
+  name: string
+  dose: string
+  route: string
+  frequency: string
+  duration: string
+  info?: string
+}
+
+export const medReference: MedReference[] = [
+  {
+    id: 'dexamethasone',
+    name: 'Dexamethasone',
+    dose: '1 mg',
+    route: 'Oral',
+    frequency: 'Take 1mg tablet orally once a day in the morning',
+    duration: '10 days',
+  },
+  {
+    id: 'gonal-f',
+    name: 'Gonal F PFS',
+    dose: '300 IU',
+    route: 'Injection s.c.',
+    frequency: 'Once daily',
+    duration: '3 days',
+  },
+  {
+    id: 'pergoveris',
+    name: 'Pergoveris PFS',
+    dose: '150 IU',
+    route: 'Injection s.c.',
+    frequency: 'Once daily',
+    duration: '9 days',
+  },
+  {
+    id: 'menopur-multi',
+    name: 'Menopur Multidose 1 × 600iu',
+    dose: '150 IU',
+    route: 'Injection s.c.',
+    frequency: '150iu daily',
+    duration: '8 days',
+  },
+  {
+    id: 'menopur-vial',
+    name: 'Menopur Vial 75iu',
+    dose: '150 IU',
+    route: 'Injection s.c.',
+    frequency: '150iu daily',
+    duration: '1 day',
+    info: 'Dispense with needles and syringes',
+  },
+  {
+    id: 'luveris',
+    name: 'Luveris 75iu Vial',
+    dose: '75 IU',
+    route: 'Injection s.c.',
+    frequency: '75iu daily',
+    duration: '6 days',
+    info: 'Dispense with needles and syringes',
+  },
+  {
+    id: 'fyremadel',
+    name: 'Fyremadel',
+    dose: '250 mcg',
+    route: 'Injection s.c.',
+    frequency: '1 × day',
+    duration: '8 days',
+  },
+  {
+    id: 'buserelin',
+    name: 'Buserilin 1mg/ml × 5.5ml vial SLS',
+    dose: '1 ml',
+    route: 'Injection s.c.',
+    frequency: '1ml as directed 36 hours pre VEC',
+    duration: '1 day',
+    info: 'Dispense with needles and syringes',
+  },
+  {
+    id: 'zivafert',
+    name: 'Zivafert PFS (Human chorionic gonadotropin (hCG) 5000 IU)',
+    dose: '10,000 IU',
+    route: 'Injection s.c.',
+    frequency: '10,000iu s/c as directed 36 hours pre VEC',
+    duration: '1 day',
+    info: 's/c as directed 36 hours before egg collection as directed',
+  },
+  {
+    id: 'voltarol',
+    name: 'Voltarol 100mg suppository',
+    dose: '100 mg',
+    route: 'Rectal',
+    frequency: 'In the morning',
+    duration: '1 day',
+    info: "DON'T TAKE IF SENSITIVITY OR ALLERGY TO NSAIDS",
   },
 ]
 
