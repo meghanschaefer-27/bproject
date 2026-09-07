@@ -239,7 +239,7 @@ export const cycleDays: CycleDay[] = [
   {
     id: 'trigger',
     dateLabel: 'When ready',
-    stimDay: 'Trigger',
+    stimDay: 'Trigger · Day 10–12',
     phase: 'trigger',
     morning: [],
     evening: [
@@ -294,7 +294,7 @@ export const milestones: Milestone[] = [
   },
   {
     id: 'trigger',
-    when: 'When ready · Day 10–12',
+    when: 'When ready',
     title: 'Trigger injections',
     description:
       'Buserelin + Zivafert trigger shots at the exact time Evewell specifies. Egg collection follows roughly 36 hours later.',
