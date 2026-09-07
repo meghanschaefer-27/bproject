@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { ChevronLeft, ChevronRight, MapPin } from 'lucide-react'
 import {
   cycleDays,
@@ -187,9 +187,20 @@ export function CycleCalendar({
   onSelectDay: (index: number) => void
   activeIndex: number
 }) {
+  const cardRefs = useRef<(HTMLButtonElement | null)[]>([])
+  const [focusedIndex, setFocusedIndex] = useState<number | null>(null)
+
+  const scrollToCard = (index: number) => {
+    setFocusedIndex(index)
+    cardRefs.current[index]?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  }
+
   return (
     <div className="flex flex-col gap-3">
-      <InlineMonthCalendar onSelectDay={onSelectDay} activeIndex={activeIndex} />
+      <InlineMonthCalendar
+        onSelectDay={scrollToCard}
+        activeIndex={focusedIndex ?? activeIndex}
+      />
       {cycleDays.map((day, index) => {
         const keys = [
           ...day.morning.map((m) => `${day.id}:am:${m.id}`),
@@ -201,14 +212,19 @@ export function CycleCalendar({
         const active = index === activeIndex
         const hasMeds = day.morning.length > 0 || day.evening.length > 0
 
+        const focused = index === focusedIndex
+
         return (
           <button
             key={day.id}
+            ref={(el) => {
+              cardRefs.current[index] = el
+            }}
             type="button"
             onClick={() => onSelectDay(index)}
             className={cn(
               'flex flex-col gap-2.5 rounded-xl border p-4 text-left transition-colors',
-              active
+              active || focused
                 ? 'border-primary bg-primary/5 ring-2 ring-primary/20'
                 : 'border-border bg-card hover:border-primary/30 hover:bg-accent/40',
             )}
