@@ -294,7 +294,7 @@ export const milestones: Milestone[] = [
   },
   {
     id: 'trigger',
-    when: 'When ready',
+    when: 'When ready · Day 10–12',
     title: 'Trigger injections',
     description:
       'Buserelin + Zivafert trigger shots at the exact time Evewell specifies. Egg collection follows roughly 36 hours later.',
