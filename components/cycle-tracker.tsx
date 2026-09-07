@@ -7,6 +7,7 @@ import { useLocalStorage } from '@/lib/use-local-storage'
 import { TodayView } from '@/components/today-view'
 import { CycleCalendar } from '@/components/cycle-calendar'
 import { MilestoneTimeline } from '@/components/milestone-timeline'
+import { MonthCalendar } from '@/components/month-calendar'
 import { cn } from '@/lib/utils'
 
 type Tab = 'today' | 'calendar' | 'milestones'
@@ -26,18 +27,13 @@ export function CycleTracker() {
   const [triggerDateTime, setTriggerDateTime] = useLocalStorage('efc:trigger', '')
 
   const [todayIndex, setTodayIndex] = useState<number | null>(null)
+  const [calendarOpen, setCalendarOpen] = useState(false)
   useEffect(() => {
     setTodayIndex(getTodayIndex())
   }, [])
 
   const index = Math.min(Math.max(selectedIndex, 0), cycleDays.length - 1)
   const day = cycleDays[index]
-
-  const goToToday = () => {
-    if (todayIndex === null) return
-    setSelectedIndex(todayIndex)
-    setTab('today')
-  }
 
   const isChecked = (key: string) => Boolean(checked[key])
   const toggle = (key: string) =>
@@ -46,6 +42,11 @@ export function CycleTracker() {
   const goToDay = (i: number) => {
     setSelectedIndex(Math.min(Math.max(i, 0), cycleDays.length - 1))
     setTab('today')
+  }
+
+  const selectFromCalendar = (i: number) => {
+    goToDay(i)
+    setCalendarOpen(false)
   }
 
   return (
@@ -59,9 +60,8 @@ export function CycleTracker() {
         </div>
         <button
           type="button"
-          onClick={goToToday}
-          disabled={todayIndex === null}
-          className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-medium text-foreground transition-colors hover:border-primary/30 hover:bg-accent disabled:opacity-40"
+          onClick={() => setCalendarOpen(true)}
+          className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-medium text-foreground transition-colors hover:border-primary/30 hover:bg-accent"
         >
           <CalendarClock className="size-3.5" aria-hidden="true" />
           Today
@@ -141,6 +141,14 @@ export function CycleTracker() {
           from your clinic, and contact them with any questions or concerns.
         </p>
       </footer>
+
+      {calendarOpen && (
+        <MonthCalendar
+          onSelectDay={selectFromCalendar}
+          onClose={() => setCalendarOpen(false)}
+          activeIndex={index}
+        />
+      )}
     </div>
   )
 }
