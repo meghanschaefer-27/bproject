@@ -31,8 +31,12 @@ export function CycleTracker() {
   const [todayIndex, setTodayIndex] = useState<number | null>(null)
   const [calendarOpen, setCalendarOpen] = useState(false)
   useEffect(() => {
-    setTodayIndex(getTodayIndex())
-  }, [])
+    const ti = getTodayIndex()
+    setTodayIndex(ti)
+    if (ti !== null) {
+      setSelectedIndex(Math.min(Math.max(ti, 0), cycleDays.length - 1))
+    }
+  }, [setSelectedIndex])
 
   const index = Math.min(Math.max(selectedIndex, 0), cycleDays.length - 1)
   const day = cycleDays[index]
