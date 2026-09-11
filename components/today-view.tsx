@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { Check, ChevronLeft, ChevronRight, MapPin, Moon, Sun } from 'lucide-react'
+import { Check, ChevronLeft, ChevronRight, MapPin, Moon, PlayCircle, Sun } from 'lucide-react'
 import {
   cycleDays,
   estimateEggCollection,
@@ -221,6 +221,23 @@ export function TodayView({
           {day.note}
         </p>
       )}
+
+      <a
+        href="https://evewell.com/how-to-inject-fertility-medication"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center gap-3 rounded-xl border border-border bg-card p-3.5 transition-colors hover:bg-accent"
+      >
+        <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+          <PlayCircle className="size-4.5" aria-hidden="true" />
+        </span>
+        <span className="min-w-0">
+          <span className="block text-sm font-medium">How to inject your medication</span>
+          <span className="block truncate text-sm text-muted-foreground">
+            Step-by-step video guides from Evewell
+          </span>
+        </span>
+      </a>
 
       <DayNotes note={note} onNoteChange={onNoteChange} />
     </div>
