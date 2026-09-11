@@ -1,6 +1,6 @@
 'use client'
 
-import { Check, Pill, Syringe, Zap, CircleDot } from 'lucide-react'
+import { Check, Pill, Syringe, Zap, CircleDot, Snowflake } from 'lucide-react'
 import type { MedForm, MedItem } from '@/lib/cycle-data'
 import { cn } from '@/lib/utils'
 
@@ -58,6 +58,12 @@ export function MedRow({
             {item.name}
           </span>
           <span className="font-mono text-sm text-muted-foreground">{item.dose}</span>
+          {item.refrigerated && (
+            <span className="inline-flex items-center gap-1 rounded-full border border-border bg-muted px-2 py-0.5 text-[10px] font-medium text-muted-foreground">
+              <Snowflake className="size-3" aria-hidden="true" />
+              Refrigerate
+            </span>
+          )}
           {item.conditional && (
             <span className="rounded-full bg-highlight/15 px-2 py-0.5 text-[10px] font-medium text-highlight">
               confirm with Evewell first

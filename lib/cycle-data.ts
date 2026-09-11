@@ -16,6 +16,8 @@ export type MedItem = {
   conditional?: boolean
   /** Anticipated final dose — exact stopping depends on scans (table footnote †) */
   anticipatedLast?: boolean
+  /** Must be stored in the fridge */
+  refrigerated?: boolean
 }
 
 export type CyclePhase = 'stimulation' | 'trigger' | 'collection'
@@ -61,6 +63,7 @@ const gonal = (): MedItem => ({
   dose: '300 IU',
   form: 'injection-pen',
   window: '6–9pm',
+  refrigerated: true,
 })
 const menopur = (opts?: { anticipatedLast?: boolean }): MedItem => ({
   id: 'menopur',
@@ -68,6 +71,7 @@ const menopur = (opts?: { anticipatedLast?: boolean }): MedItem => ({
   dose: '150 IU',
   form: 'injection',
   window: '6–9am',
+  refrigerated: true,
   anticipatedLast: opts?.anticipatedLast,
 })
 const pergoveris = (opts?: { anticipatedLast?: boolean }): MedItem => ({
@@ -76,6 +80,7 @@ const pergoveris = (opts?: { anticipatedLast?: boolean }): MedItem => ({
   dose: '150 IU',
   form: 'injection-pen',
   window: '6–9pm',
+  refrigerated: true,
   anticipatedLast: opts?.anticipatedLast,
 })
 const luveris = (opts?: { anticipatedLast?: boolean }): MedItem => ({
@@ -321,6 +326,10 @@ export type MedReference = {
   route: string
   frequency: string
   duration: string
+  /** When in the day it's taken */
+  timing: string
+  /** Must be stored in the fridge */
+  refrigerated?: boolean
   info?: string
 }
 
@@ -332,6 +341,7 @@ export const medReference: MedReference[] = [
     route: 'Oral',
     frequency: 'Take 1mg tablet orally once a day in the morning',
     duration: '10 days',
+    timing: 'AM',
   },
   {
     id: 'gonal-f',
@@ -340,6 +350,8 @@ export const medReference: MedReference[] = [
     route: 'Injection s.c.',
     frequency: 'Once daily',
     duration: '3 days',
+    timing: 'PM (6–9pm)',
+    refrigerated: true,
   },
   {
     id: 'pergoveris',
@@ -348,6 +360,8 @@ export const medReference: MedReference[] = [
     route: 'Injection s.c.',
     frequency: 'Once daily',
     duration: '9 days',
+    timing: 'PM (6–9pm)',
+    refrigerated: true,
   },
   {
     id: 'menopur-multi',
@@ -356,6 +370,8 @@ export const medReference: MedReference[] = [
     route: 'Injection s.c.',
     frequency: '150iu daily',
     duration: '8 days',
+    timing: 'AM (6–9am)',
+    refrigerated: true,
   },
   {
     id: 'menopur-vial',
@@ -364,6 +380,7 @@ export const medReference: MedReference[] = [
     route: 'Injection s.c.',
     frequency: '150iu daily',
     duration: '1 day',
+    timing: 'AM (6–9am)',
     info: 'Dispense with needles and syringes',
   },
   {
@@ -373,6 +390,7 @@ export const medReference: MedReference[] = [
     route: 'Injection s.c.',
     frequency: '75iu daily',
     duration: '6 days',
+    timing: 'PM (evening)',
     info: 'Dispense with needles and syringes',
   },
   {
@@ -382,6 +400,7 @@ export const medReference: MedReference[] = [
     route: 'Injection s.c.',
     frequency: '1 × day',
     duration: '8 days',
+    timing: 'PM (evening)',
   },
   {
     id: 'buserelin',
@@ -390,6 +409,7 @@ export const medReference: MedReference[] = [
     route: 'Injection s.c.',
     frequency: '1ml as directed 36 hours pre VEC',
     duration: '1 day',
+    timing: 'As directed by Evewell',
     info: 'Dispense with needles and syringes',
   },
   {
@@ -399,6 +419,7 @@ export const medReference: MedReference[] = [
     route: 'Injection s.c.',
     frequency: '10,000iu s/c as directed 36 hours pre VEC',
     duration: '1 day',
+    timing: 'As directed by Evewell',
     info: 's/c as directed 36 hours before egg collection as directed',
   },
   {
@@ -408,6 +429,7 @@ export const medReference: MedReference[] = [
     route: 'Rectal',
     frequency: 'In the morning',
     duration: '1 day',
+    timing: 'AM (before collection)',
     info: "DON'T TAKE IF SENSITIVITY OR ALLERGY TO NSAIDS",
   },
 ]
