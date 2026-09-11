@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef, useState } from 'react'
-import { ChevronLeft, ChevronRight, MapPin } from 'lucide-react'
+import { ChevronLeft, ChevronRight, MapPin, Snowflake } from 'lucide-react'
 import {
   cycleDays,
   phaseLabels,
@@ -172,6 +172,12 @@ function MedLine({ time, day }: { time: 'AM' | 'PM'; day: CycleDay }) {
           <span className="font-mono text-[10px] font-medium text-foreground/70">{time}</span>
           <span className="mx-1 text-muted-foreground/50">•</span>
           {formLabels[m.form]} — <span className="text-foreground">{m.name}</span> {m.dose}
+          {m.refrigerated && (
+            <span className="ml-1.5 inline-flex items-center gap-0.5 align-middle text-[10px] font-medium text-chart-2">
+              <Snowflake className="size-3" aria-hidden="true" />
+              Refrigerate
+            </span>
+          )}
         </p>
       ))}
     </div>
