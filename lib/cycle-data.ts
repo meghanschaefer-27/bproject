@@ -351,7 +351,7 @@ export const medReference: MedReference[] = [
     route: 'Injection s.c.',
     frequency: 'Once daily',
     duration: '3 days',
-    timing: 'PM (6–9pm)',
+    timing: 'PM',
     refrigerated: true,
   },
   {
@@ -361,7 +361,7 @@ export const medReference: MedReference[] = [
     route: 'Injection s.c.',
     frequency: 'Once daily',
     duration: '9 days',
-    timing: 'PM (6–9pm)',
+    timing: 'PM',
     refrigerated: true,
   },
   {
@@ -371,7 +371,7 @@ export const medReference: MedReference[] = [
     route: 'Injection s.c.',
     frequency: '150iu daily',
     duration: '8 days',
-    timing: 'AM (6–9am)',
+    timing: 'AM',
     refrigerated: true,
   },
   {
@@ -391,7 +391,7 @@ export const medReference: MedReference[] = [
     route: 'Injection s.c.',
     frequency: '75iu daily',
     duration: '6 days',
-    timing: 'PM (evening)',
+    timing: 'PM',
     info: 'Dispense with needles and syringes',
   },
   {
@@ -401,7 +401,7 @@ export const medReference: MedReference[] = [
     route: 'Injection s.c.',
     frequency: '1 × day',
     duration: '8 days',
-    timing: 'PM (evening)',
+    timing: 'PM',
   },
   {
     id: 'buserelin',
@@ -410,7 +410,7 @@ export const medReference: MedReference[] = [
     route: 'Injection s.c.',
     frequency: '1ml as directed 36 hours pre VEC',
     duration: '1 day',
-    timing: 'As directed by Evewell',
+    timing: 'PM',
     info: 'Dispense with needles and syringes',
   },
   {
@@ -420,7 +420,7 @@ export const medReference: MedReference[] = [
     route: 'Injection s.c.',
     frequency: '10,000iu s/c as directed 36 hours pre VEC',
     duration: '1 day',
-    timing: 'As directed by Evewell',
+    timing: 'PM',
     info: 's/c as directed 36 hours before egg collection as directed',
   },
   {
@@ -430,7 +430,7 @@ export const medReference: MedReference[] = [
     route: 'Rectal',
     frequency: 'In the morning',
     duration: '1 day',
-    timing: 'AM (before collection)',
+    timing: 'AM',
     info: "DON'T TAKE IF SENSITIVITY OR ALLERGY TO NSAIDS",
   },
 ]
