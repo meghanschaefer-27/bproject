@@ -81,9 +81,9 @@ export function ProtocolOverview() {
                 </div>
               </div>
 
-              <dl className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm sm:grid-cols-4">
+              <dl className="grid grid-cols-3 gap-x-4 gap-y-2 text-sm">
                 <div>
-                  <dt className="text-xs text-muted-foreground">Timing</dt>
+                  <dt className="text-xs text-muted-foreground">Frequency</dt>
                   <dd className="text-foreground">{med.timing}</dd>
                 </div>
                 <div>
@@ -93,10 +93,6 @@ export function ProtocolOverview() {
                 <div>
                   <dt className="text-xs text-muted-foreground">Duration</dt>
                   <dd className="text-foreground">{med.duration}</dd>
-                </div>
-                <div className="col-span-2 sm:col-span-4">
-                  <dt className="text-xs text-muted-foreground">Frequency</dt>
-                  <dd className="text-foreground">{med.frequency}</dd>
                 </div>
               </dl>
 
