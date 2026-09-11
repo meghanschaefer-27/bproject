@@ -70,7 +70,7 @@ export function ProtocolOverview() {
                 <h3 className="text-sm font-semibold text-foreground">{med.name}</h3>
                 <div className="flex items-center gap-2">
                   {med.refrigerated && (
-                    <span className="inline-flex items-center gap-1 rounded-full border border-border bg-muted px-2 py-0.5 text-[10px] font-medium text-muted-foreground">
+                    <span className="inline-flex items-center gap-1 rounded-full border border-chart-2/30 bg-chart-2/10 px-2 py-0.5 text-[10px] font-medium text-chart-2">
                       <Snowflake className="size-3" aria-hidden="true" />
                       Refrigerate
                     </span>
@@ -83,7 +83,7 @@ export function ProtocolOverview() {
 
               <dl className="grid grid-cols-3 gap-x-4 gap-y-2 text-sm">
                 <div>
-                  <dt className="text-xs text-muted-foreground">Frequency</dt>
+                  <dt className="text-xs text-muted-foreground">Time</dt>
                   <dd className="text-foreground">{med.timing}</dd>
                 </div>
                 <div>
