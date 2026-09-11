@@ -59,7 +59,7 @@ export function MedRow({
           </span>
           <span className="font-mono text-sm text-muted-foreground">{item.dose}</span>
           {item.refrigerated && (
-            <span className="inline-flex items-center gap-1 rounded-full border border-border bg-muted px-2 py-0.5 text-[10px] font-medium text-muted-foreground">
+            <span className="inline-flex items-center gap-1 rounded-full border border-chart-2/30 bg-chart-2/15 px-2 py-0.5 text-[10px] font-medium text-chart-2">
               <Snowflake className="size-3" aria-hidden="true" />
               Refrigerate
             </span>
