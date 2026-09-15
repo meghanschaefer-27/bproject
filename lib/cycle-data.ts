@@ -16,6 +16,8 @@ export type MedItem = {
   conditional?: boolean
   /** Anticipated final dose — exact stopping depends on scans (table footnote †) */
   anticipatedLast?: boolean
+  /** Not yet confirmed — Evewell will advise whether to take it */
+  tbc?: boolean
   /** Must be stored in the fridge */
   refrigerated?: boolean
 }
@@ -90,13 +92,14 @@ const luveris = (opts?: { anticipatedLast?: boolean }): MedItem => ({
   form: 'injection',
   anticipatedLast: opts?.anticipatedLast,
 })
-const fyremadel = (opts?: { anticipatedLast?: boolean }): MedItem => ({
+const fyremadel = (opts?: { anticipatedLast?: boolean; tbc?: boolean }): MedItem => ({
   id: 'fyremadel',
   name: 'Fyremadel',
   dose: '250 mcg',
   form: 'syringe',
   conditional: true,
   anticipatedLast: opts?.anticipatedLast,
+  tbc: opts?.tbc,
 })
 
 export const cycleDays: CycleDay[] = [
@@ -154,8 +157,8 @@ export const cycleDays: CycleDay[] = [
     phase: 'stimulation',
     appointment: { label: '10am Evewell — scan + bloods' },
     morning: [dex(), menopur()],
-    evening: [pergoveris(), fyremadel()],
-    note: 'Confirmed monitoring appointment. From this first monitoring scan, expect appointments approximately every 3 days.',
+    evening: [pergoveris()],
+    note: 'Confirmed monitoring appointment. From this first monitoring scan, expect appointments approximately every 3 days. Fyremadel not started yet — Evewell will advise.',
   },
   {
     id: 'd6',
@@ -165,8 +168,8 @@ export const cycleDays: CycleDay[] = [
     stimDay: 'Day 6',
     phase: 'stimulation',
     morning: [dex(), menopur()],
-    evening: [pergoveris(), luveris(), fyremadel()],
-    note: 'Luveris starts. Fyremadel continues daily once Evewell has confirmed you should start it.',
+    evening: [pergoveris(), luveris()],
+    note: 'Luveris starts. Fyremadel not started yet — Evewell will advise when to begin.',
   },
   {
     id: 'd7',
@@ -177,8 +180,8 @@ export const cycleDays: CycleDay[] = [
     phase: 'stimulation',
     appointment: { label: '11am Evewell — scan + bloods' },
     morning: [dex(), menopur()],
-    evening: [pergoveris(), luveris(), fyremadel()],
-    note: 'Confirmed monitoring appointment. Continue medication unless Evewell changes doses.',
+    evening: [pergoveris(), luveris(), fyremadel({ tbc: true })],
+    note: 'Confirmed monitoring appointment. Fyremadel is TBC — Evewell will confirm at this scan whether to start it.',
   },
   {
     id: 'd8',
@@ -187,10 +190,9 @@ export const cycleDays: CycleDay[] = [
     cycleDay: 'CD29',
     stimDay: 'Day 8',
     phase: 'stimulation',
-    appointment: { label: 'Evewell monitoring scan + bloods', potential: true },
     morning: [dex(), menopur()],
     evening: [pergoveris(), luveris(), fyremadel()],
-    note: 'Approx. next monitoring visit if first monitoring was around Day 4/5. Medication doses may be adjusted based on follicle growth.',
+    note: 'Medication doses may be adjusted based on follicle growth.',
   },
   {
     id: 'd9',
@@ -199,9 +201,10 @@ export const cycleDays: CycleDay[] = [
     cycleDay: 'CD30',
     stimDay: 'Day 9',
     phase: 'stimulation',
+    appointment: { label: '11am Evewell — scan + bloods' },
     morning: [dex(), menopur()],
     evening: [pergoveris(), luveris(), fyremadel()],
-    note: 'Continue stimulation.',
+    note: 'Confirmed monitoring appointment. Continue stimulation unless Evewell changes doses.',
   },
   {
     id: 'd10',

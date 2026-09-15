@@ -64,7 +64,12 @@ export function MedRow({
               Refrigerate
             </span>
           )}
-          {item.conditional && (
+          {item.tbc && (
+            <span className="rounded-full bg-highlight/15 px-2 py-0.5 text-[10px] font-medium text-highlight">
+              TBC
+            </span>
+          )}
+          {item.conditional && !item.tbc && (
             <span className="rounded-full bg-highlight/15 px-2 py-0.5 text-[10px] font-medium text-highlight">
               confirm with Evewell first
             </span>
