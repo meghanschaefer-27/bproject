@@ -92,7 +92,7 @@ const luveris = (opts?: { anticipatedLast?: boolean }): MedItem => ({
   form: 'injection',
   anticipatedLast: opts?.anticipatedLast,
 })
-const fyremadel = (opts?: { anticipatedLast?: boolean; tbc?: boolean }): MedItem => ({
+const fyremadel = (opts?: { anticipatedLast?: boolean; tbc?: boolean; note?: string }): MedItem => ({
   id: 'fyremadel',
   name: 'Fyremadel',
   dose: '250 mcg',
@@ -100,7 +100,8 @@ const fyremadel = (opts?: { anticipatedLast?: boolean; tbc?: boolean }): MedItem
   conditional: true,
   anticipatedLast: opts?.anticipatedLast,
   tbc: opts?.tbc,
-})
+  note: opts?.note,
+  })
 
 export const cycleDays: CycleDay[] = [
   {
@@ -180,8 +181,8 @@ export const cycleDays: CycleDay[] = [
     phase: 'stimulation',
     appointment: { label: '11am Evewell — scan + bloods' },
     morning: [dex(), menopur()],
-    evening: [pergoveris(), luveris(), fyremadel({ tbc: true })],
-    note: 'Confirmed monitoring appointment. Fyremadel is TBC — Evewell will confirm at this scan whether to start it.',
+    evening: [pergoveris(), luveris(), fyremadel({ tbc: true, note: 'Bring Fyremadel injection to appt' })],
+    note: 'Confirmed monitoring appointment. Bring your Fyremadel injection to the appointment — Evewell will confirm at this scan whether to start it.',
   },
   {
     id: 'd8',
@@ -201,7 +202,7 @@ export const cycleDays: CycleDay[] = [
     cycleDay: 'CD30',
     stimDay: 'Day 9',
     phase: 'stimulation',
-    appointment: { label: '11am Evewell — scan + bloods' },
+    appointment: { label: '9am Evewell — scan + bloods' },
     morning: [dex(), menopur()],
     evening: [pergoveris(), luveris(), fyremadel()],
     note: 'Confirmed monitoring appointment. Continue stimulation unless Evewell changes doses.',

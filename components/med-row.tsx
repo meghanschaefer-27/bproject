@@ -83,6 +83,9 @@ export function MedRow({
         {item.window && (
           <span className="mt-0.5 block text-sm text-muted-foreground">{item.window}</span>
         )}
+        {item.note && (
+          <span className="mt-0.5 block text-sm font-medium text-highlight">{item.note}</span>
+        )}
       </span>
 
       <span

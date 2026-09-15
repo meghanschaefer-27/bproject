@@ -183,6 +183,9 @@ function MedLine({ time, day }: { time: 'AM' | 'PM'; day: CycleDay }) {
               Refrigerate
             </span>
           )}
+          {m.note && (
+            <span className="mt-0.5 block font-medium text-highlight">{m.note}</span>
+          )}
         </p>
       ))}
     </div>
