@@ -76,14 +76,15 @@ const menopur = (opts?: { anticipatedLast?: boolean }): MedItem => ({
   refrigerated: true,
   anticipatedLast: opts?.anticipatedLast,
 })
-const pergoveris = (opts?: { anticipatedLast?: boolean }): MedItem => ({
+const pergoveris = (opts?: { anticipatedLast?: boolean; dose?: string; note?: string }): MedItem => ({
   id: 'pergoveris',
   name: 'Pergoveris',
-  dose: '150 IU',
+  dose: opts?.dose ?? '150 IU',
   form: 'injection-pen',
   window: '6–9pm',
   refrigerated: true,
   anticipatedLast: opts?.anticipatedLast,
+  note: opts?.note,
 })
 const luveris = (opts?: { anticipatedLast?: boolean }): MedItem => ({
   id: 'luveris',
@@ -158,8 +159,8 @@ export const cycleDays: CycleDay[] = [
     phase: 'stimulation',
     appointment: { label: '10am Evewell — scan + bloods' },
     morning: [dex(), menopur()],
-    evening: [pergoveris()],
-    note: 'Confirmed monitoring appointment. From this first monitoring scan, expect appointments approximately every 3 days. Fyremadel not started yet — Evewell will advise.',
+    evening: [pergoveris({ dose: '125 IU', note: 'Reduced dose' })],
+    note: 'Confirmed monitoring appointment. From this first monitoring scan, expect appointments approximately every 3 days. Pergoveris reduced to 125iu from tonight. Fyremadel not started yet — Evewell will advise.',
   },
   {
     id: 'd6',
@@ -169,7 +170,7 @@ export const cycleDays: CycleDay[] = [
     stimDay: 'Day 6',
     phase: 'stimulation',
     morning: [dex(), menopur()],
-    evening: [pergoveris(), luveris()],
+    evening: [pergoveris({ dose: '125 IU', note: 'Reduced dose' }), luveris()],
     note: 'Luveris starts. Fyremadel not started yet — Evewell will advise when to begin.',
   },
   {
@@ -181,7 +182,7 @@ export const cycleDays: CycleDay[] = [
     phase: 'stimulation',
     appointment: { label: '11am Evewell — scan + bloods' },
     morning: [dex(), menopur()],
-    evening: [pergoveris(), luveris(), fyremadel({ tbc: true, note: 'Bring Fyremadel injection to appt' })],
+    evening: [pergoveris({ dose: '125 IU', note: 'Reduced dose' }), luveris(), fyremadel({ tbc: true, note: 'Bring Fyremadel injection to appt' })],
     note: 'Confirmed monitoring appointment. Bring your Fyremadel injection to the appointment — Evewell will confirm at this scan whether to start it.',
   },
   {
@@ -192,7 +193,7 @@ export const cycleDays: CycleDay[] = [
     stimDay: 'Day 8',
     phase: 'stimulation',
     morning: [dex(), menopur()],
-    evening: [pergoveris(), luveris(), fyremadel()],
+    evening: [pergoveris({ dose: '125 IU', note: 'Reduced dose' }), luveris(), fyremadel()],
     note: 'Medication doses may be adjusted based on follicle growth.',
   },
   {
@@ -204,7 +205,7 @@ export const cycleDays: CycleDay[] = [
     phase: 'stimulation',
     appointment: { label: '11am Evewell — scan + bloods' },
     morning: [dex(), menopur()],
-    evening: [pergoveris(), luveris(), fyremadel()],
+    evening: [pergoveris({ dose: '125 IU', note: 'Reduced dose' }), luveris(), fyremadel()],
     note: 'Confirmed monitoring appointment. Continue stimulation unless Evewell changes doses.',
   },
   {
@@ -215,7 +216,7 @@ export const cycleDays: CycleDay[] = [
     stimDay: 'Day 10',
     phase: 'stimulation',
     morning: [dex(), menopur()],
-    evening: [pergoveris(), luveris(), fyremadel()],
+    evening: [pergoveris({ dose: '125 IU', note: 'Reduced dose' }), luveris(), fyremadel()],
     note: '10th / final planned Dexamethasone day. Other stimulation meds continue.',
   },
   {
@@ -227,7 +228,7 @@ export const cycleDays: CycleDay[] = [
     phase: 'stimulation',
     appointment: { label: 'Evewell monitoring scan + bloods', potential: true },
     morning: [menopur()],
-    evening: [pergoveris(), luveris(), fyremadel()],
+    evening: [pergoveris({ dose: '125 IU', note: 'Reduced dose' }), luveris(), fyremadel()],
     note: "Approx. next monitoring visit. Getting close to the trigger decision. You'll know your actual egg-collection date roughly 2 days beforehand.",
   },
   {
@@ -239,7 +240,7 @@ export const cycleDays: CycleDay[] = [
     phase: 'stimulation',
     morning: [menopur({ anticipatedLast: true })],
     evening: [
-      pergoveris({ anticipatedLast: true }),
+      pergoveris({ anticipatedLast: true, dose: '125 IU', note: 'Reduced dose' }),
       luveris({ anticipatedLast: true }),
       fyremadel({ anticipatedLast: true }),
     ],
