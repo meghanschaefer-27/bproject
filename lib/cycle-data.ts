@@ -202,7 +202,7 @@ export const cycleDays: CycleDay[] = [
     cycleDay: 'CD30',
     stimDay: 'Day 9',
     phase: 'stimulation',
-    appointment: { label: '9am Evewell — scan + bloods' },
+    appointment: { label: '11am Evewell — scan + bloods' },
     morning: [dex(), menopur()],
     evening: [pergoveris(), luveris(), fyremadel()],
     note: 'Confirmed monitoring appointment. Continue stimulation unless Evewell changes doses.',
