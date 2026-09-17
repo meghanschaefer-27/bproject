@@ -159,8 +159,8 @@ export const cycleDays: CycleDay[] = [
     phase: 'stimulation',
     appointment: { label: '10am Evewell — scan + bloods' },
     morning: [dex(), menopur()],
-    evening: [pergoveris({ dose: '125 IU', note: 'Reduced dose' })],
-    note: 'Confirmed monitoring appointment. From this first monitoring scan, expect appointments approximately every 3 days. Pergoveris reduced to 125iu from tonight. Fyremadel not started yet — Evewell will advise.',
+    evening: [pergoveris()],
+    note: 'Confirmed monitoring appointment. From this first monitoring scan, expect appointments approximately every 3 days. Fyremadel not started yet — Evewell will advise.',
   },
   {
     id: 'd6',
@@ -170,7 +170,7 @@ export const cycleDays: CycleDay[] = [
     stimDay: 'Day 6',
     phase: 'stimulation',
     morning: [dex(), menopur()],
-    evening: [pergoveris({ dose: '125 IU', note: 'Reduced dose' }), luveris()],
+    evening: [pergoveris(), luveris()],
     note: 'Luveris continues.',
   },
   {
