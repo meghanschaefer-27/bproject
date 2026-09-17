@@ -184,7 +184,7 @@ function MedLine({ time, day }: { time: 'AM' | 'PM'; day: CycleDay }) {
             </span>
           )}
           {m.note && (
-            <span className="mt-0.5 block font-medium text-highlight">{m.note}</span>
+            <span className="ml-1.5 align-middle font-medium text-highlight">{m.note}</span>
           )}
         </p>
       ))}
