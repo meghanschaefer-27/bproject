@@ -182,8 +182,8 @@ export const cycleDays: CycleDay[] = [
     phase: 'stimulation',
     appointment: { label: '11am Evewell — scan + bloods' },
     morning: [dex(), menopur()],
-    evening: [pergoveris({ dose: '125 IU', note: 'Reduced dose' }), luveris(), fyremadel({ tbc: true, note: 'Bring Fyremadel injection to appt' })],
-    note: 'Confirmed monitoring appointment. Bring your Fyremadel injection to the appointment — Evewell will confirm at this scan whether to start it.',
+    evening: [pergoveris({ dose: '125 IU', note: 'Reduced dose' }), luveris()],
+    note: 'Confirmed monitoring appointment.',
   },
   {
     id: 'd8',
