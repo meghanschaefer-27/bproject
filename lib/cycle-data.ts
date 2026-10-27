@@ -130,7 +130,7 @@ function stimNote(day: number): string {
   if (day === 4) return 'Luveris 75iu starts this evening.'
   if (day === 5) return 'Fyremadel 250mcg may start this morning — confirm with Evewell first.'
   if (day === 10)
-    return 'Final planned stimulation day. Trigger injections may be today — Evewell will confirm the exact timing.'
+    return 'Final planned stimulation day. Continue stimulation.'
   return 'Continue stimulation. Fyremadel only if confirmed by Evewell.'
 }
 
@@ -150,7 +150,6 @@ export const cycleDays: CycleDay[] = [
       evening: [
         pergoveris(),
         ...(day >= 4 ? [luveris(day === 4 ? { note: 'Introducing new medication' } : undefined)] : []),
-        ...(day === 10 ? [buserelin(), zivafert()] : []),
       ],
       note: stimNote(day),
     }
@@ -163,7 +162,7 @@ export const cycleDays: CycleDay[] = [
     phase: 'trigger',
     morning: [],
     evening: [buserelin(), zivafert()],
-    note: 'Trigger injections TBC — if not taken on Day 10, they may be today. Do not take without specific instruction from Evewell.',
+    note: 'Trigger injections TBC. Do not take without specific instruction from Evewell.',
   },
   {
     id: 'collection',
@@ -219,7 +218,7 @@ export const protocolPhases: ProtocolPhase[] = [
   {
     id: 'trigger-phase',
     range: '',
-    stimRange: 'Stimulation Day 10–11',
+    stimRange: 'Stimulation Day 11',
     summary:
       'Buserelin 1ml + Zivafert 10,000iu trigger injections (TBC). Very specifically timed — do not take without instruction from Evewell.',
     points: [],
