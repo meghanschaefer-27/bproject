@@ -1,62 +1,11 @@
 'use client'
 
-import { CalendarClock, Snowflake } from 'lucide-react'
-import { medReference, protocolPhases } from '@/lib/cycle-data'
+import { Snowflake } from 'lucide-react'
+import { medReference } from '@/lib/cycle-data'
 
 export function ProtocolOverview() {
   return (
     <div className="flex flex-col gap-8">
-      <section>
-        <h2 className="mb-1 text-lg font-semibold text-foreground">Protocol overview</h2>
-        <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
-          A summary of your Evewell stimulation protocol, from baseline scan through to the trigger.
-        </p>
-
-        <ol className="flex flex-col gap-3">
-          {protocolPhases.map((phase) => (
-            <li
-              key={phase.id}
-              className="rounded-xl border border-border bg-card p-4"
-            >
-              <div className="mb-2 flex flex-wrap items-center gap-2">
-                <span className="rounded-md bg-primary/10 px-2 py-0.5 text-xs font-semibold text-primary">
-                  {phase.stimRange}
-                </span>
-                {phase.range && (
-                  <span className="text-xs font-medium text-muted-foreground">{phase.range}</span>
-                )}
-              </div>
-
-              {phase.appointment && (
-                <div className="mb-2 flex items-center gap-1.5 text-sm font-medium text-foreground">
-                  <CalendarClock className="size-3.5 text-primary" aria-hidden="true" />
-                  {phase.appointment}
-                </div>
-              )}
-
-              <p className="text-sm leading-relaxed text-muted-foreground">{phase.summary}</p>
-
-              {phase.points.length > 0 && (
-                <ul className="mt-3 flex flex-col gap-1.5">
-                  {phase.points.map((point, i) => (
-                    <li
-                      key={i}
-                      className="flex gap-2 text-sm leading-relaxed text-foreground"
-                    >
-                      <span
-                        className="mt-1.5 size-1.5 shrink-0 rounded-full bg-primary/60"
-                        aria-hidden="true"
-                      />
-                      <span>{point}</span>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </li>
-          ))}
-        </ol>
-      </section>
-
       <section>
         <h2 className="mb-1 text-lg font-semibold text-foreground">Medication reference</h2>
         <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
