@@ -20,6 +20,8 @@ export type MedItem = {
   tbc?: boolean
   /** Must be stored in the fridge */
   refrigerated?: boolean
+  /** Short inline note shown beside the medication name */
+  note?: string
 }
 
 export type CyclePhase = 'stimulation' | 'trigger' | 'collection'
@@ -58,212 +60,118 @@ const dex = (): MedItem => ({
   name: 'Dexamethasone',
   dose: '1 mg',
   form: 'pill',
+  window: '6–9am',
 })
-const gonal = (): MedItem => ({
-  id: 'gonal-f',
-  name: 'Gonal-F',
-  dose: '300 IU',
-  form: 'injection-pen',
-  window: '6–9pm',
-  refrigerated: true,
-})
-const menopur = (opts?: { anticipatedLast?: boolean }): MedItem => ({
+const menopur = (): MedItem => ({
   id: 'menopur',
   name: 'Menopur',
   dose: '150 IU',
   form: 'injection',
   window: '6–9am',
   refrigerated: true,
-  anticipatedLast: opts?.anticipatedLast,
 })
-const pergoveris = (opts?: { anticipatedLast?: boolean; dose?: string; note?: string }): MedItem => ({
+const pergoveris = (): MedItem => ({
   id: 'pergoveris',
   name: 'Pergoveris',
-  dose: opts?.dose ?? '150 IU',
+  dose: '150 IU',
   form: 'injection-pen',
   window: '6–9pm',
   refrigerated: true,
-  anticipatedLast: opts?.anticipatedLast,
-  note: opts?.note,
 })
-const luveris = (opts?: { anticipatedLast?: boolean }): MedItem => ({
+const luveris = (opts?: { note?: string }): MedItem => ({
   id: 'luveris',
   name: 'Luveris',
   dose: '75 IU',
   form: 'injection',
-  anticipatedLast: opts?.anticipatedLast,
+  window: '6–9pm',
+  note: opts?.note,
 })
-const fyremadel = (opts?: { anticipatedLast?: boolean; tbc?: boolean; note?: string }): MedItem => ({
+const fyremadel = (opts?: { note?: string }): MedItem => ({
   id: 'fyremadel',
   name: 'Fyremadel',
   dose: '250 mcg',
   form: 'syringe',
+  window: '6–9am',
   conditional: true,
-  anticipatedLast: opts?.anticipatedLast,
-  tbc: opts?.tbc,
+  tbc: true,
   note: opts?.note,
-  })
+})
+const buserelin = (): MedItem => ({
+  id: 'buserelin',
+  name: 'Buserelin',
+  dose: '1 ml',
+  form: 'trigger',
+  tbc: true,
+})
+const zivafert = (): MedItem => ({
+  id: 'zivafert',
+  name: 'Zivafert',
+  dose: '10,000 IU',
+  form: 'trigger',
+  tbc: true,
+})
+
+const stimDays: Array<{ date: string; label: string }> = [
+  { date: '2026-10-27', label: 'Tue 27 Oct' },
+  { date: '2026-10-28', label: 'Wed 28 Oct' },
+  { date: '2026-10-29', label: 'Thu 29 Oct' },
+  { date: '2026-10-30', label: 'Fri 30 Oct' },
+  { date: '2026-10-31', label: 'Sat 31 Oct' },
+  { date: '2026-11-01', label: 'Sun 1 Nov' },
+  { date: '2026-11-02', label: 'Mon 2 Nov' },
+  { date: '2026-11-03', label: 'Tue 3 Nov' },
+  { date: '2026-11-04', label: 'Wed 4 Nov' },
+  { date: '2026-11-05', label: 'Thu 5 Nov' },
+]
+
+function stimNote(day: number): string {
+  if (day === 1) return 'Medication starts today. Continue stimulation each morning and evening.'
+  if (day <= 3) return 'Continue stimulation.'
+  if (day === 4) return 'Luveris 75iu starts this evening.'
+  if (day === 5) return 'Fyremadel 250mcg may start this morning — confirm with Evewell first.'
+  if (day === 10)
+    return 'Final planned stimulation day. Trigger injections may be today — Evewell will confirm the exact timing.'
+  return 'Continue stimulation. Fyremadel only if confirmed by Evewell.'
+}
 
 export const cycleDays: CycleDay[] = [
-  {
-    id: 'd1',
-    dateLabel: 'Fri 11 Sep',
-    date: '2026-09-11',
-    cycleDay: 'CD22',
-    stimDay: 'Day 1',
-    phase: 'stimulation',
-    appointment: { label: '8am Evewell — baseline scan + bloods' },
-    morning: [],
-    evening: [gonal()],
-    note: 'Consultant reviews results. Do not start meds until Evewell clears you after the scan. If cleared, today becomes Stim Day 1 — evening Gonal-F shot only tonight; the morning Dexamethasone course begins tomorrow.',
-  },
-  {
-    id: 'd2',
-    dateLabel: 'Sat 12 Sep',
-    date: '2026-09-12',
-    cycleDay: 'CD23',
-    stimDay: 'Day 2',
-    phase: 'stimulation',
-    morning: [dex()],
-    evening: [gonal()],
-    note: 'Continue stimulation.',
-  },
-  {
-    id: 'd3',
-    dateLabel: 'Sun 13 Sep',
-    date: '2026-09-13',
-    cycleDay: 'CD24',
-    stimDay: 'Day 3',
-    phase: 'stimulation',
-    morning: [dex()],
-    evening: [gonal()],
-    note: 'Last planned Gonal-F dose. Completes the first 3 nights of stimulation.',
-  },
-  {
-    id: 'd4',
-    dateLabel: 'Mon 14 Sep',
-    date: '2026-09-14',
-    cycleDay: 'CD25',
-    stimDay: 'Day 4',
-    phase: 'stimulation',
-    morning: [dex(), menopur()],
-    evening: [pergoveris()],
-    note: 'Switch to morning + evening stimulation shots. First monitoring appointment expected Day 4 or Day 5.',
-  },
-  {
-    id: 'd5',
-    dateLabel: 'Tue 15 Sep',
-    date: '2026-09-15',
-    cycleDay: 'CD26',
-    stimDay: 'Day 5',
-    phase: 'stimulation',
-    appointment: { label: '10am Evewell — scan + bloods' },
-    morning: [dex(), menopur()],
-    evening: [pergoveris()],
-    note: 'Confirmed monitoring appointment. From this first monitoring scan, expect appointments approximately every 3 days. Fyremadel not started yet — Evewell will advise.',
-  },
-  {
-    id: 'd6',
-    dateLabel: 'Wed 16 Sep',
-    date: '2026-09-16',
-    cycleDay: 'CD27',
-    stimDay: 'Day 6',
-    phase: 'stimulation',
-    morning: [dex(), menopur()],
-    evening: [pergoveris(), luveris()],
-    note: 'Luveris continues.',
-  },
-  {
-    id: 'd7',
-    dateLabel: 'Thu 17 Sep',
-    date: '2026-09-17',
-    cycleDay: 'CD28',
-    stimDay: 'Day 7',
-    phase: 'stimulation',
-    appointment: { label: '11am Evewell — scan + bloods' },
-    morning: [dex(), menopur()],
-    evening: [pergoveris({ dose: '125 IU', note: 'Reduced dose' }), luveris()],
-    note: 'Confirmed monitoring appointment.',
-  },
-  {
-    id: 'd8',
-    dateLabel: 'Fri 18 Sep',
-    date: '2026-09-18',
-    cycleDay: 'CD29',
-    stimDay: 'Day 8',
-    phase: 'stimulation',
-    morning: [dex(), menopur(), fyremadel({ note: 'Introducing new medication' })],
-    evening: [pergoveris({ dose: '125 IU', note: 'Reduced dose' }), luveris()],
-    note: 'Fyremadel starts this morning. Medication doses may be adjusted based on follicle growth.',
-  },
-  {
-    id: 'd9',
-    dateLabel: 'Sat 19 Sep',
-    date: '2026-09-19',
-    cycleDay: 'CD30',
-    stimDay: 'Day 9',
-    phase: 'stimulation',
-    appointment: { label: '11am Evewell — scan + bloods' },
-    morning: [dex(), menopur(), fyremadel()],
-    evening: [pergoveris({ dose: '125 IU', note: 'Reduced dose' }), luveris()],
-    note: 'Confirmed monitoring appointment. Continue stimulation unless Evewell changes doses.',
-  },
-  {
-    id: 'd10',
-    dateLabel: 'Sun 20 Sep',
-    date: '2026-09-20',
-    cycleDay: 'CD31',
-    stimDay: 'Day 10',
-    phase: 'stimulation',
-    morning: [dex(), menopur(), fyremadel()],
-    evening: [pergoveris({ dose: '125 IU', note: 'Reduced dose' }), luveris()],
-    note: '10th / final planned Dexamethasone day. Other stimulation meds continue.',
-  },
+  ...stimDays.map(({ date, label }, i): CycleDay => {
+    const day = i + 1
+    return {
+      id: `d${day}`,
+      dateLabel: label,
+      date,
+      stimDay: `Day ${day}`,
+      phase: 'stimulation',
+      ...(day === 4
+        ? { appointment: { label: '8:00am scan · 9:45am acupuncture' } }
+        : {}),
+      morning: day >= 5 ? [dex(), menopur(), fyremadel()] : [dex(), menopur()],
+      evening: [
+        pergoveris(),
+        ...(day >= 4 ? [luveris(day === 4 ? { note: 'Introducing new medication' } : undefined)] : []),
+        ...(day === 10 ? [buserelin(), zivafert()] : []),
+      ],
+      note: stimNote(day),
+    }
+  }),
   {
     id: 'd11',
-    dateLabel: 'Mon 21 Sep',
-    date: '2026-09-21',
-    cycleDay: 'CD32',
+    dateLabel: 'Fri 6 Nov',
+    date: '2026-11-06',
     stimDay: 'Day 11',
-    phase: 'stimulation',
-    appointment: { label: 'Evewell monitoring scan + bloods', potential: true },
-    morning: [menopur(), fyremadel()],
-    evening: [pergoveris({ dose: '125 IU', note: 'Reduced dose' }), luveris()],
-    note: "Approx. next monitoring visit. Getting close to the trigger decision. You'll know your actual egg-collection date roughly 2 days beforehand.",
-  },
-  {
-    id: 'd12',
-    dateLabel: 'Tue 22 Sep',
-    date: '2026-09-22',
-    cycleDay: 'CD33',
-    stimDay: 'Day 12',
-    phase: 'stimulation',
-    morning: [menopur({ anticipatedLast: true }), fyremadel({ anticipatedLast: true })],
-    evening: [
-      pergoveris({ anticipatedLast: true, dose: '125 IU', note: 'Reduced dose' }),
-      luveris({ anticipatedLast: true }),
-    ],
-    note: '~12 days of stimulation anticipated. Exact stopping point depends on your scans.',
-  },
-  {
-    id: 'trigger',
-    dateLabel: 'When ready',
-    stimDay: 'Trigger · Day 10–12',
     phase: 'trigger',
     morning: [],
-    evening: [
-      { id: 'buserelin', name: 'Buserelin', dose: '1 ml', form: 'trigger' },
-      { id: 'zivafert', name: 'Zivafert', dose: '10,000 IU', form: 'trigger' },
-    ],
-    note: 'Exact timing comes from Evewell. Egg collection approximately 36 hours later.',
+    evening: [buserelin(), zivafert()],
+    note: 'Trigger injections TBC — if not taken on Day 10, they may be today. Do not take without specific instruction from Evewell.',
   },
   {
     id: 'collection',
-    dateLabel: '24–27 Sep',
-    cycleDay: '~CD35–38',
+    dateLabel: 'Mon 9 Nov',
+    date: '2026-11-09',
     stimDay: 'Egg collection',
     phase: 'collection',
-    appointment: { label: 'Evewell — egg collection' },
+    appointment: { label: 'Evewell — egg collection (potential date)', potential: true },
     morning: [
       {
         id: 'voltarol',
@@ -274,7 +182,7 @@ export const cycleDays: CycleDay[] = [
       },
     ],
     evening: [],
-    note: "You'll know the exact procedure date ~2 days before. On the day, you'll find out how many eggs were collected.",
+    note: "Potential egg retrieval date — approx. 36 hours after the trigger. You'll know the exact date ~2 days before.",
   },
 ]
 
@@ -289,37 +197,31 @@ export type ProtocolPhase = {
 
 export const protocolPhases: ProtocolPhase[] = [
   {
-    id: 'baseline-start',
-    range: 'Cycle Day 20–22',
-    stimRange: 'Stimulation Day 1 to 5/6',
-    appointment: 'Baseline scan Fri 11 Sep, 8am',
-    summary:
-      'Ultrasound scan + bloods at your baseline appointment, undertaken by the nurse and reviewed by your consultant. If you are cleared to start, that day becomes Stimulation Day 1. You can also have a medication teach with the nurses after this appointment.',
+    id: 'stim-start',
+    range: 'Tue 27 Oct',
+    stimRange: 'Stimulation Day 1–4',
+    summary: 'Medication starts today.',
     points: [
-      'Stim days 1–3 — AM: Dexamethasone 1mg (10 day course); PM 6–9pm: Gonal-F 300iu',
-      'From stim day 4 onwards — AM 6–9am: Menopur 150iu + Dexamethasone 1mg; PM 6–9pm: Pergoveris 150iu',
-      'From Day 6 you introduce Luveris 75iu every evening',
+      'Day 1–3 — AM 6–9am: Dexamethasone 1mg + Menopur 150iu; PM 6–9pm: Pergoveris 150iu',
+      'Day 4 — as above, plus Luveris 75iu in the evening',
     ],
   },
   {
-    id: 'mid-monitoring',
+    id: 'stim-mid',
     range: '',
-    stimRange: 'Stimulation Day 5/6',
-    appointment: 'Ultrasound scan and possibly bloods',
-    summary:
-      'You will have 3–4 further scans every 2–3 days after this point.',
+    stimRange: 'Stimulation Day 5–10',
+    summary: 'Fyremadel 250mcg added in the mornings, to be confirmed with Evewell first.',
     points: [
-      'You will be told whether to commence Fyremadel 250mcg (every day thereafter, until approx. Cycle Day 10–12)',
-      'Continue with your stimulation medication today and every day thereafter',
-      'Following this scan your dose may change and additional medication may be added depending on your response to the stimulation',
+      'AM 6–9am: Dexamethasone 1mg + Menopur 150iu + Fyremadel 250mcg (TBC)',
+      'PM 6–9pm: Pergoveris 150iu + Luveris 75iu',
     ],
   },
   {
     id: 'trigger-phase',
     range: '',
-    stimRange: 'Stimulation Day 10–12',
+    stimRange: 'Stimulation Day 10–11',
     summary:
-      'Buserelin 1ml + Zivafert 10,000iu trigger injections. This is very specifically timed and the nurses will tell you when to take this medication. Do not take this medication without specific instruction.',
+      'Buserelin 1ml + Zivafert 10,000iu trigger injections (TBC). Very specifically timed — do not take without instruction from Evewell.',
     points: [],
   },
 ]
@@ -437,21 +339,20 @@ export type Milestone = {
 export const milestones: Milestone[] = [
   {
     id: 'baseline',
-    when: 'Fri 11 Sep',
-    title: 'Baseline scan',
-    description:
-      'Scan + bloods at Evewell. The consultant reviews your results and clears you to begin stimulation.',
+    when: 'Tue 27 Oct',
+    title: 'Medication starts',
+    description: 'Stimulation Day 1 — morning Dexamethasone + Menopur, evening Pergoveris.',
   },
   {
     id: 'trigger',
-    when: 'When ready',
+    when: 'Day 10–11 (TBC)',
     title: 'Trigger injections',
     description:
       'Buserelin + Zivafert trigger shots at the exact time Evewell specifies. Egg collection follows roughly 36 hours later.',
   },
   {
     id: 'collection',
-    when: '24–27 Sep (approx.)',
+    when: 'Mon 9 Nov (potential)',
     title: 'Egg collection',
     description:
       "The procedure itself. You'll know the exact date about 2 days beforehand, and learn how many eggs were collected on the day.",
@@ -528,7 +429,7 @@ export function getTodayIndex(): number {
 
 /**
  * Egg collection lands roughly 36 hours after the trigger shot. Takes a
- * datetime-local value (e.g. "2026-09-22T21:00") and returns a friendly label.
+ * datetime-local value (e.g. "2026-11-05T21:00") and returns a friendly label.
  */
 export function estimateEggCollection(triggerDateTime: string): string | null {
   if (!triggerDateTime) return null

@@ -6,18 +6,16 @@ import { cycleDays, getTodayIndex } from '@/lib/cycle-data'
 import { useLocalStorage } from '@/lib/use-local-storage'
 import { TodayView } from '@/components/today-view'
 import { CycleCalendar } from '@/components/cycle-calendar'
-import { MilestoneTimeline } from '@/components/milestone-timeline'
 import { MonthCalendar } from '@/components/month-calendar'
 import { ProtocolOverview } from '@/components/protocol-overview'
 import { cn } from '@/lib/utils'
 
-type Tab = 'overview' | 'today' | 'calendar' | 'milestones'
+type Tab = 'overview' | 'today' | 'calendar'
 
 const tabs: { id: Tab; label: string; icon: React.ReactNode }[] = [
   { id: 'overview', label: 'Overview', icon: <BookOpen className="size-4" /> },
   { id: 'calendar', label: 'Calendar', icon: <CalendarDays className="size-4" /> },
   { id: 'today', label: 'Today', icon: <ClipboardCheck className="size-4" /> },
-  { id: 'milestones', label: 'Milestones', icon: <Sparkles className="size-4" /> },
 ]
 
 export function CycleTracker() {
@@ -25,7 +23,6 @@ export function CycleTracker() {
   const [selectedIndex, setSelectedIndex] = useLocalStorage('efc:selected-day', 0)
   const [checked, setChecked] = useLocalStorage<Record<string, boolean>>('efc:checked', {})
   const [notes, setNotes] = useLocalStorage<Record<string, string>>('efc:notes', {})
-  const [results, setResults] = useLocalStorage<Record<string, string>>('efc:results', {})
   const [triggerDateTime, setTriggerDateTime] = useLocalStorage('efc:trigger', '')
 
   const [todayIndex, setTodayIndex] = useState<number | null>(null)
@@ -74,7 +71,7 @@ export function CycleTracker() {
         </button>
       </header>
 
-      <nav className="mb-6 grid grid-cols-4 gap-1 rounded-xl border border-border bg-card p-1">
+      <nav className="mb-6 grid grid-cols-3 gap-1 rounded-xl border border-border bg-card p-1">
         {tabs.map((t) => (
           <button
             key={t.id}
@@ -121,14 +118,6 @@ export function CycleTracker() {
           />
         )}
 
-        {tab === 'milestones' && (
-          <MilestoneTimeline
-            results={results}
-            onResultChange={(key, value) =>
-              setResults((prev) => ({ ...prev, [key]: value }))
-            }
-          />
-        )}
       </main>
 
       <footer className="mt-8 border-t border-border pt-4 text-xs leading-relaxed text-muted-foreground">
